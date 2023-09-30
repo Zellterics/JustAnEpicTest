@@ -12,7 +12,7 @@ namespace JustAnEpicTest
         {
             //temp func
             String[] lines;
-            lines = System.IO.File.ReadAllLines("Map.csv");
+            lines = System.IO.File.ReadAllLines("../../Map.csv");
             foreach (string line in lines) {
                 Console.WriteLine(line);
             }

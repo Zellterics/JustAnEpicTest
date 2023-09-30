@@ -11,12 +11,8 @@ namespace JustAnEpicTest
         static void Main(string[] args)
         {
             //temp func
-            String[] lines;
-            lines = System.IO.File.ReadAllLines("../../Map.csv");
-            foreach (string line in lines) {
-                Console.WriteLine(line);
-            }
-            Console.ReadLine();
+            Map map = new Map("../../Map.csv");
+            map.Print();
         }
     }
 }

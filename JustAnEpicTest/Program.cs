@@ -11,12 +11,14 @@ namespace JustAnEpicTest
             Character.Pair startPosition = new Character.Pair(1, 1);
             Map map = new Map("../../Map.csv");
             String onTop = map.GetStringOn(startPosition.x, startPosition.y);
-            Character player = new Character("C", startPosition);
+            Character player = new Character("C", startPosition, "../../character.json");
             int deltaTime = 40;
             Character.Pair lastPosition;
+            player.LoadData();
             do
             {
                 //Update Player
+                player.SaveData(player);
                 map.SetStringOn(player.position.x, player.position.y, onTop);
                 onTop = map.GetStringOn(player.position.x, player.position.y);
                 lastPosition = player.position;

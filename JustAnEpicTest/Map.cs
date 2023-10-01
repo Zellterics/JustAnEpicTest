@@ -60,7 +60,7 @@ namespace JustAnEpicTest
         public bool SetStringOn(int x, int y, String value)
         {
             bool edited = false;
-            string tempFile = "../../temp.csv";
+            String tempFile = "../../temp.csv";
             for(int i = 0; i < lines.Length; i++)
             {
                 String[] fields = lines[i].Split(',');

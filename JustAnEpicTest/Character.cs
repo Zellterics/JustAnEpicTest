@@ -69,8 +69,15 @@ namespace JustAnEpicTest
                 return false;
             }
             String json = File.ReadAllText(path);
-            List<Character> newPlayer = JsonSerializer.Deserialize<List<Character>>(json);
-            position = newPlayer[0].position;
+            try
+            {
+                List<Character> newPlayer = JsonSerializer.Deserialize<List<Character>>(json);
+                position = newPlayer[0].position;
+            }catch (Exception)
+            {
+                SaveData(this);
+                return false;
+            }
             return true;
         }
     }

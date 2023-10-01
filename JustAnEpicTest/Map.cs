@@ -53,6 +53,11 @@ namespace JustAnEpicTest
 
         private void PrintCharacter(char character, ConsoleColor color, string output, ref char last)
         {
+            if(character == '1')
+            {
+                Console.Write(output);
+                return;
+            }
             if (last != character)
             {
                 Console.ForegroundColor = color;

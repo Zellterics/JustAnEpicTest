@@ -12,30 +12,41 @@ namespace JustAnEpicTest
             String onTop = "1";
             Character player = new Character("C", new Pair(1, 1), "../../character.json");
             int deltaTime = 40;
-            Portal portal = new Portal(new Pair(5, 1), new Pair(30, 30));
-            Initialize(ref player, ref map, portal);
+
+            //Create Portals
+            List<Portal> portals = new List<Portal>();
+            portals.Add(new Portal(new Pair(5, 1), new Pair(30, 30)));
+            portals.Add(new Portal(new Pair(21, 19), new Pair(5, 28)));
+            
+            Initialize(ref player, ref map, portals);
             do
             {
                 player.SaveData(player);
                 map.SetStringOn(player.position, onTop);
-                PlayerMove(ref player, map, ref onTop, portal);
+                PlayerMove(ref player, map, ref onTop, portals);
                 map.SetStringOn(player.position, player.symbol);
                 UpdateMap(map, deltaTime);
             } while (true);
         }
 
-        static void PlayerMove(ref Character player, Map map, ref String onTop, Portal portal)
+        static void PlayerMove(ref Character player, Map map, ref String onTop, List<Portal> portals)
         {
             Pair lastPosition = player.position;
             player.Move(HandleInput());
             String currentTile = map.GetStringOn(player.position);
 
-
+            //COLLISION SYSTEM
             if (currentTile == "P")
             {
                 if (onTop != "P")
                 {
-                    player.position = portal.OnPortalEntered(player.position);
+                    foreach (Portal portal in portals)
+                    {
+                        if(portal.p1 == player.position || portal.p2 == player.position)
+                        {
+                            player.position = portal.OnPortalEntered(player.position);
+                        }
+                    }
                 }
                 onTop = "P";
             }
@@ -56,14 +67,17 @@ namespace JustAnEpicTest
             map.Print();
         }
 
-        static void Initialize(ref Character player, ref Map map, Portal portal)
+        static void Initialize(ref Character player, ref Map map, List<Portal> portals)
         {
             player.LoadData();
             Console.WriteLine("LOADING...");
             Thread.Sleep(3000);
 
-            map.SetStringOn(portal.p1, "P");
-            map.SetStringOn(portal.p2, "P");
+            foreach (Portal portal in portals)
+            {
+                map.SetStringOn(portal.p1, "P");
+                map.SetStringOn(portal.p2, "P");
+            }
         }
 
         static Direction HandleInput()

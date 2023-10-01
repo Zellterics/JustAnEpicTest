@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
+    <Compile Include="DataTypes.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Portal.cs" />
     <Compile Include="Program.cs" />

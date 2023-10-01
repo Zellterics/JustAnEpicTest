@@ -8,13 +8,13 @@ namespace JustAnEpicTest
 {
     internal class Portal
     {
-        public Character.Pair p1;
-        public Character.Pair p2;
-        public Portal(Character.Pair position1, Character.Pair position2) {
+        public Pair p1;
+        public Pair p2;
+        public Portal(Pair position1, Pair position2) {
             p1 = position1;
             p2 = position2;
         }
-        public Character.Pair OnPortalEntered(Character.Pair position)
+        public Pair OnPortalEntered(Pair position)
         {
             if(position == p1)
             {

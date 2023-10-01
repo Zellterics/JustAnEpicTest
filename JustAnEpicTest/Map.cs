@@ -18,6 +18,7 @@ namespace JustAnEpicTest
         }
         public void Print()
         {
+            char last = '0';
             foreach (string line in lines)
             {
                 foreach (char ch in line)
@@ -27,16 +28,19 @@ namespace JustAnEpicTest
                         case ',':
                             continue;
                         case '0':
-                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            if(last != '0'){
+                                Console.ForegroundColor = ConsoleColor.DarkGray;
+                                last = ch;
+                            }
                             Console.Write("▓▓");
                             break;
                         case '1':
-                            Console.ForegroundColor = ConsoleColor.Gray;
-                            Console.Write("░░");
+                            Console.Write("  ");
                             break;
                         case 'C':
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.Write("C ");
+                            Console.Write("<3");
+                            last = ch;
                             break;
                     }
                 }

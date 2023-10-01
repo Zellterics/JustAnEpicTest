@@ -8,13 +8,14 @@ namespace JustAnEpicTest
     {
         static void Main(string[] args)
         {
-            Character.Pair startPosition = new Character.Pair(1, 1);
             Map map = new Map("../../Map.csv");
-            String onTop = map.GetStringOn(startPosition.x, startPosition.y);
-            Character player = new Character("C", startPosition, "../../character.json");
+            String onTop = "1";
+            Character player = new Character("C", new Character.Pair(1, 1), "../../character.json");
             int deltaTime = 40;
             Character.Pair lastPosition;
             player.LoadData();
+            Console.WriteLine("LOADING...");
+            Thread.Sleep(3000);
             do
             {
                 //Update Player

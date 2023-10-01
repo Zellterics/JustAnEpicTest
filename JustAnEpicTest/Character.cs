@@ -26,21 +26,27 @@ namespace JustAnEpicTest
         {
             up, down, left, right, none
         }
+
+
         [JsonPropertyName("position")]
         public Pair position { get; set; }
 
         public String symbol;
+
 
         public Character(String symbol, Pair position, String path) {
             this.symbol = symbol;
             this.path = path;
             this.position = position;
         }
+
+
         [JsonConstructor]
         public Character(Pair position)
         {
             this.position = position;
         }
+
         public bool Move(Direction direction)
         {
             Pair newPosition = position;
@@ -72,16 +78,17 @@ namespace JustAnEpicTest
             String json = JsonSerializer.Serialize(save, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, json);
         }
-        public void LoadData()
+        public bool LoadData()
         {
             if (!File.Exists(path))
             {
                 SaveData(this);
-                return;
+                return false;
             }
             String json = File.ReadAllText(path);
             List<Character> newPlayer = JsonSerializer.Deserialize<List<Character>>(json);
             position = newPlayer[0].position;
+            return true;
         }
     }
 }

@@ -1,77 +1,84 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JustAnEpicTest
 {
     internal class Map
     {
-        private String path;
+        private readonly String path;
         private String[] lines;
-        public Map(String path) {
+        public Map(string path)
+        {
             this.path = path;
-            lines = System.IO.File.ReadAllLines(path);
+            ReadMapFromFile();
+        }
+
+        private void ReadMapFromFile()
+        {
+            lines = File.ReadAllLines(path);
         }
         public void Print()
         {
-            char last = '0';
             foreach (string line in lines)
             {
-                foreach (char ch in line)
-                {
-                    switch (ch)
-                    {
-                        case ',':
-                            continue;
-                        case '0':
-                            if(last != '0'){
-                                Console.ForegroundColor = ConsoleColor.DarkGray;
-                                last = ch;
-                            }
-                            Console.Write("▓▓");
-                            break;
-                        case '1':
-                            Console.Write("  ");
-                            break;
-                        case 'C':
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.Write("C ");
-                            last = ch;
-                            break;
-                        case 'P':
-                            Console.ForegroundColor = ConsoleColor.Magenta;
-                            Console.Write("<>");
-                            last = ch;
-                            break;
-                    }
-                }
-                Console.WriteLine();
+                PrintLine(line);
             }
+        }
+
+        private void PrintLine(string line)
+        {
+            char last = '0';
+            foreach (char ch in line)
+            {
+                switch (ch)
+                {
+                    case ',':
+                        continue;
+                    case '0':
+                        PrintCharacter('0', ConsoleColor.DarkGray, "▓▓", ref last);
+                        break;
+                    case '1':
+                        PrintCharacter('1', ConsoleColor.White, "  ", ref last);
+                        break;
+                    case 'C':
+                        PrintCharacter('C', ConsoleColor.Green, "C ", ref last);
+                        break;
+                    case 'P':
+                        PrintCharacter('P', ConsoleColor.Magenta, "<>", ref last);
+                        break;
+                }
+            }
+            Console.WriteLine();
+        }
+
+        private void PrintCharacter(char character, ConsoleColor color, string output, ref char last)
+        {
+            if (last != character)
+            {
+                Console.ForegroundColor = color;
+                last = character;
+            }
+            Console.Write(output);
         }
         /// <returns>Char in x, y position or F for empty space</returns>
         public String GetStringOn(int x, int y)
         {
             try
             {
-                String[] column = lines[y].Split(',');
-                String[] ch = column[x].Split(',');
-                return ch[0];
+                string[] column = lines[y].Split(',');
+                return column[x].Trim();
             }
             catch (Exception)
             {
                 return "F";
             }
         }
+
         public bool SetStringOn(int x, int y, string value)
         {
-            bool edited = false;
             string tempFile = "../../temp.csv";
 
-            using (StreamWriter file = new StreamWriter(tempFile, true))
+            using (StreamWriter file = new StreamWriter(tempFile))
             {
                 for (int i = 0; i < lines.Length; i++)
                 {
@@ -79,7 +86,6 @@ namespace JustAnEpicTest
                     if (i == y)
                     {
                         fields[x] = value;
-                        edited = true;
                     }
                     file.WriteLine(string.Join(",", fields));
                 }
@@ -87,10 +93,9 @@ namespace JustAnEpicTest
 
             File.Copy(tempFile, path, true);
             File.Delete(tempFile);
-            lines = File.ReadAllLines(path);
+            ReadMapFromFile();
 
-            return edited;
+            return true;
         }
-
     }
 }

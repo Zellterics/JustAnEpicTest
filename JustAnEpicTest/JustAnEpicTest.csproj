@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Character.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Portal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

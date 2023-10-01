@@ -16,17 +16,31 @@ namespace JustAnEpicTest
             player.LoadData();
             Console.WriteLine("LOADING...");
             Thread.Sleep(3000);
+            Portal portal = new Portal(new Character.Pair(5, 1), new Character.Pair(30, 30));
+            map.SetStringOn(portal.p1.x, portal.p1.y, "P");
+            map.SetStringOn(portal.p2.x, portal.p2.y, "P");
             do
             {
                 //Update Player
                 player.SaveData(player);
                 map.SetStringOn(player.position.x, player.position.y, onTop);
-                onTop = map.GetStringOn(player.position.x, player.position.y);
                 lastPosition = player.position;
                 player.Move(HandleInput());
-                if(map.GetStringOn(player.position.x, player.position.y) != "1")
+                if(map.GetStringOn(player.position.x, player.position.y) == "P")
+                {
+                    if(onTop != "P")
+                    {
+                        player.position = portal.OnPortalEntered(player.position);
+                    }
+                    onTop = "P";
+                }
+                if(map.GetStringOn(player.position.x, player.position.y) == "0")
                 {
                     player.position = lastPosition;
+                }
+                if(map.GetStringOn(player.position.x, player.position.y) == "1")
+                {
+                    onTop = "1";
                 }
                 map.SetStringOn(player.position.x, player.position.y, player.symbol);
 

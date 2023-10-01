@@ -39,7 +39,12 @@ namespace JustAnEpicTest
                             break;
                         case 'C':
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.Write("<3");
+                            Console.Write("C ");
+                            last = ch;
+                            break;
+                        case 'P':
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.Write("<>");
                             last = ch;
                             break;
                     }

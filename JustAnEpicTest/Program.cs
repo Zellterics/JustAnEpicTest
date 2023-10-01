@@ -16,11 +16,10 @@ namespace JustAnEpicTest
             Initialize(ref player, ref map, portal);
             do
             {
-                //Update Player
                 player.SaveData(player);
-                map.SetStringOn(player.position.x, player.position.y, onTop);
+                map.SetStringOn(player.position, onTop);
                 PlayerMove(ref player, map, ref onTop, portal);
-                map.SetStringOn(player.position.x, player.position.y, player.symbol);
+                map.SetStringOn(player.position, player.symbol);
                 UpdateMap(map, deltaTime);
             } while (true);
         }
@@ -29,7 +28,7 @@ namespace JustAnEpicTest
         {
             Pair lastPosition = player.position;
             player.Move(HandleInput());
-            String currentTile = map.GetStringOn(player.position.x, player.position.y);
+            String currentTile = map.GetStringOn(player.position);
 
 
             if (currentTile == "P")
@@ -63,8 +62,8 @@ namespace JustAnEpicTest
             Console.WriteLine("LOADING...");
             Thread.Sleep(3000);
 
-            map.SetStringOn(portal.p1.x, portal.p1.y, "P");
-            map.SetStringOn(portal.p2.x, portal.p2.y, "P");
+            map.SetStringOn(portal.p1, "P");
+            map.SetStringOn(portal.p2, "P");
         }
 
         static Direction HandleInput()

@@ -61,12 +61,12 @@ namespace JustAnEpicTest
             Console.Write(output);
         }
         /// <returns>Char in x, y position or F for empty space</returns>
-        public String GetStringOn(int x, int y)
+        public String GetStringOn(Pair position)
         {
             try
             {
-                string[] column = lines[y].Split(',');
-                return column[x].Trim();
+                string[] column = lines[position.y].Split(',');
+                return column[position.x].Trim();
             }
             catch (Exception)
             {
@@ -74,7 +74,7 @@ namespace JustAnEpicTest
             }
         }
 
-        public bool SetStringOn(int x, int y, string value)
+        public bool SetStringOn(Pair position, string value)
         {
             string tempFile = "../../temp.csv";
 
@@ -83,9 +83,9 @@ namespace JustAnEpicTest
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string[] fields = lines[i].Split(',');
-                    if (i == y)
+                    if (i == position.y)
                     {
-                        fields[x] = value;
+                        fields[position.x] = value;
                     }
                     file.WriteLine(string.Join(",", fields));
                 }

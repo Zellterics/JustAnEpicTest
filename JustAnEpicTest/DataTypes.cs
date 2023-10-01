@@ -14,13 +14,25 @@ namespace JustAnEpicTest
         }
         public override bool Equals(object obj)
         {
-            Pair other = new Pair(1, 1);
+            if (!(obj is Pair))
+            {
+                return false;
+            }
 
-            return Object.ReferenceEquals(null, other) ? false : x == other.x;
+            Pair other = (Pair)obj;
+
+            return this.x == other.x && this.y == other.y;
         }
+
         public override int GetHashCode()
         {
-            return x;
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + x.GetHashCode();
+                hash = hash * 23 + y.GetHashCode();
+                return hash;
+            }
         }
         public static bool operator ==(Pair p1, Pair p2)
         {

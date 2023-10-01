@@ -57,52 +57,31 @@ namespace JustAnEpicTest
                 return "F";
             }
         }
-        public bool SetStringOn(int x, int y, String value)
+        public bool SetStringOn(int x, int y, string value)
         {
             bool edited = false;
-            String tempFile = "../../temp.csv";
-            for(int i = 0; i < lines.Length; i++)
-            {
-                String[] fields = lines[i].Split(',');
-                if(i != y)
-                {
-                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(tempFile, true))
-                    {
-                        for (int j = 0; j < fields.Length - 1; j++) {
-                            file.Write(fields[j] + ",");
-                        }
-                        file.Write(fields[fields.Length - 1] + '\n');
-                    }
-                }
-                else
-                {
-                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(tempFile, true))
-                    {
-                        for (int j = 0; j < fields.Length - 1; j++)
-                        {
-                            if(j == x)
-                            {
-                                file.Write(value + ",");
-                                edited = true;
-                                continue;
-                            }
-                            file.Write(fields[j] + ",");
-                        }
+            string tempFile = "../../temp.csv";
 
-                        if (fields.Length - 1 == x)
-                        {
-                            file.Write(value + '\n');
-                            edited = true;
-                            continue;
-                        }
-                        file.Write(fields[fields.Length - 1] + '\n');
+            using (StreamWriter file = new StreamWriter(tempFile, true))
+            {
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string[] fields = lines[i].Split(',');
+                    if (i == y)
+                    {
+                        fields[x] = value;
+                        edited = true;
                     }
+                    file.WriteLine(string.Join(",", fields));
                 }
             }
+
             File.Copy(tempFile, path, true);
             File.Delete(tempFile);
-            lines = System.IO.File.ReadAllLines(path);
+            lines = File.ReadAllLines(path);
+
             return edited;
         }
+
     }
 }

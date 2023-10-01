@@ -67,9 +67,9 @@ namespace JustAnEpicTest
 
         public void SaveData(Character player)
         {
-            List<Character> asd = new List<Character>();
-            asd.Add(player);
-            String json = JsonSerializer.Serialize(asd, new JsonSerializerOptions { WriteIndented = true });
+            List<Character> save = new List<Character>();
+            save.Add(player);
+            String json = JsonSerializer.Serialize(save, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, json);
         }
         public void LoadData()

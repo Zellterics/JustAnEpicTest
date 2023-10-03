@@ -45,6 +45,6 @@ namespace JustAnEpicTest
     }
     public enum Direction
     {
-        up, down, left, right, none
+        up, down, left, right, none, esc
     }
 }

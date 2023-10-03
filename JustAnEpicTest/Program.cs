@@ -11,7 +11,7 @@ namespace JustAnEpicTest
             Map map = new Map("../../Map.csv");
             String onTop = "1";
             Character player = new Character("C", new Pair(1, 1), "../../character.json");
-            int deltaTime = 40;
+            int deltaTime = 10;
 
             //Create Portals
             List<Portal> portals = new List<Portal>();
@@ -26,7 +26,7 @@ namespace JustAnEpicTest
                 PlayerMove(ref player, map, ref onTop, portals);
                 map.SetStringOn(player.position, player.symbol);
                 UpdateMap(map, deltaTime);
-            } while (true);
+            } while (player.state != 1);
         }
 
         static void PlayerMove(ref Character player, Map map, ref String onTop, List<Portal> portals)
@@ -36,7 +36,7 @@ namespace JustAnEpicTest
             String currentTile = map.GetStringOn(player.position);
 
             //COLLISION SYSTEM
-            if (currentTile == "P")
+            if (currentTile == "P" || currentTile == "p")
             {
                 if (onTop != "P")
                 {
@@ -58,7 +58,74 @@ namespace JustAnEpicTest
             {
                 onTop = "1";
             }
+            if(currentTile == "2")
+            {
+                onTop = "1";
+            }
+
+
+            //Illumation System
+            map.CleanCharacters("2", "1");
+            map.CleanCharacters("p", "P");
+            map.CleanCharacters("3", "1");
+            for (int i = 0; i < 4; i++)
+            {
+                Pair light = player.position;
+                String lightChar = map.GetStringOn(light);
+                while (lightChar != "0")
+                {
+                    if (lightChar != "P" && lightChar != "p")
+                    {
+                        map.SetStringOn(light, "2");
+                        for (int j = -1; j < 2; j++)
+                        {
+                            if (map.GetStringOn(new Pair(light.x + j, light.y)) == "1")
+                            {
+                                map.SetStringOn(new Pair(light.x + j, light.y), "3");
+                            }
+                            if (map.GetStringOn(new Pair(light.x + j, light.y)) == "P")
+                            {
+                                map.SetStringOn(new Pair(light.x + j, light.y), "p");
+                            }
+                        }
+                        for (int j = -1; j < 2; j++)
+                        {
+                            if (map.GetStringOn(new Pair(light.x, light.y + j)) == "1")
+                            {
+                                map.SetStringOn(new Pair(light.x, light.y + j), "3");
+                            }
+                            if (map.GetStringOn(new Pair(light.x, light.y + j)) == "P")
+                            {
+                                map.SetStringOn(new Pair(light.x, light.y + j), "p");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        map.SetStringOn(light, "p");
+                    }
+
+                    switch (i)
+                    {
+                        case 0:
+                            light.y--;
+                            break;
+                        case 1:
+                            light.y++;
+                            break;
+                        case 2:
+                            light.x--;
+                            break;
+                        case 3:
+                            light.x++;
+                            break;
+                    }
+                    lightChar = map.GetStringOn(light);
+                }
+
+            }
         }
+
 
         static void UpdateMap(Map map, int deltaTime)
         {
@@ -100,7 +167,8 @@ namespace JustAnEpicTest
                 { ConsoleKey.UpArrow, Direction.up },
                 { ConsoleKey.LeftArrow, Direction.left },
                 { ConsoleKey.DownArrow, Direction.down },
-                { ConsoleKey.RightArrow, Direction.right }
+                { ConsoleKey.RightArrow, Direction.right },
+                {ConsoleKey.Escape, Direction.esc },
             };
             if (keyToDirection.TryGetValue(input.Key, out Direction direction))
             {

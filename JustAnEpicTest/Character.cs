@@ -9,12 +9,13 @@ namespace JustAnEpicTest
 {
     internal class Character
     {
-        String path;
+        private readonly String path;
 
         [JsonPropertyName("position")]
         public Pair position { get; set; }
 
         public String symbol;
+        public int state = 0;
 
 
         public Character(String symbol, Pair position, String path) {
@@ -48,6 +49,9 @@ namespace JustAnEpicTest
                     newPosition.x++;
                     break;
                 case Direction.none:
+                    break;
+                case Direction.esc:
+                    state = 1;
                     break;
             }
             position = newPosition;

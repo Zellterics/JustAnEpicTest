@@ -72,7 +72,7 @@ namespace JustAnEpicTest
             {
                 Pair light = player.position;
                 String lightChar = map.GetStringOn(light);
-                while (lightChar != "0")
+                for (int k = 0; lightChar != "0" && k < 10; k++)
                 {
                     if (lightChar != "P" && lightChar != "p")
                     {

@@ -45,7 +45,7 @@ namespace JustAnEpicTest
                         PrintCharacter('C', ConsoleColor.Green, ConsoleColor.DarkGray, "C ", ref last);
                         break;
                     case 'P':
-                        PrintCharacter('P', ConsoleColor.Magenta, ConsoleColor.Black, "<>", ref last);
+                        PrintCharacter('P', ConsoleColor.Magenta, ConsoleColor.Black, "  ", ref last);
                         break;
                     case 'p':
                         PrintCharacter('p', ConsoleColor.Magenta, ConsoleColor.DarkGray, "<>", ref last);

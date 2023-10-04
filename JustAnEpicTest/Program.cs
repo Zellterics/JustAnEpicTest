@@ -11,7 +11,7 @@ namespace JustAnEpicTest
             Map map = new Map("../../Map.csv");
             String onTop = "1";
             Character player = new Character("C", new Pair(1, 1), "../../character.json");
-            int deltaTime = 10;
+            int deltaTime = 30;
 
             //Create Portals
             List<Portal> portals = new List<Portal>();
@@ -27,6 +27,7 @@ namespace JustAnEpicTest
                 map.SetStringOn(player.position, player.symbol);
                 UpdateMap(map, deltaTime);
             } while (player.state != 1);
+            map.SaveMap();
         }
 
         static void PlayerMove(ref Character player, Map map, ref String onTop, List<Portal> portals)
@@ -72,7 +73,7 @@ namespace JustAnEpicTest
             {
                 Pair light = player.position;
                 String lightChar = map.GetStringOn(light);
-                for (int k = 0; lightChar != "0" && k < 10; k++)
+                for (int k = 0; lightChar != "0" && k < 6; k++)
                 {
                     if (lightChar != "P" && lightChar != "p")
                     {
@@ -103,6 +104,13 @@ namespace JustAnEpicTest
                     else
                     {
                         map.SetStringOn(light, "p");
+                        foreach (Portal portal in portals)
+                        {
+                            if (portal.p1 == light || portal.p2 == light)
+                            {
+                                map.SetStringOn(portal.OnPortalEntered(light), "p");
+                            }
+                        }
                     }
 
                     switch (i)

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace JustAnEpicTest
 {
@@ -96,24 +97,15 @@ namespace JustAnEpicTest
 
         public bool SetStringOn(Pair position, string value)
         {
-            string tempFile = "../../temp.csv";
-
-            using (StreamWriter file = new StreamWriter(tempFile))
+            for (int i = 0; i < lines.Length; i++)
             {
-                for (int i = 0; i < lines.Length; i++)
+                string[] fields = lines[i].Split(',');
+                if (i == position.y)
                 {
-                    string[] fields = lines[i].Split(',');
-                    if (i == position.y)
-                    {
-                        fields[position.x] = value;
-                    }
-                    file.WriteLine(string.Join(",", fields));
+                    fields[position.x] = value;
                 }
+                lines[i] = string.Join(",", fields);
             }
-
-            File.Copy(tempFile, path, true);
-            File.Delete(tempFile);
-            ReadMapFromFile();
 
             return true;
         }
@@ -125,7 +117,22 @@ namespace JustAnEpicTest
 
         public void CleanCharacters(String old, String replace)
         {
-            
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string[] fields = lines[i].Split(',');
+                for (int j = 0; j < fields.Length; j++)
+                {
+                    if (fields[j] == old)
+                    {
+                        fields[j] = replace;
+                    }
+                }
+                lines[i] = string.Join(",", fields);
+            }
+        }
+
+        public void SaveMap()
+        {
             string tempFile = "../../temp.csv";
 
             using (StreamWriter file = new StreamWriter(tempFile))
@@ -133,13 +140,6 @@ namespace JustAnEpicTest
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string[] fields = lines[i].Split(',');
-                    for(int j = 0; j < fields.Length; j++)
-                    {
-                        if (fields[j] == old)
-                        {
-                            fields[j] = replace;
-                        }
-                    }
                     file.WriteLine(string.Join(",", fields));
                 }
             }
